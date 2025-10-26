@@ -1,0 +1,20 @@
+version: '3.8'
+
+# Docker Compose service definition for the MinIO Client (mc)
+services:
+  minio-client:
+    # 1. The image from the 'docker run' command: minio/mc
+    image: minio/mc
+
+    # 2. The '--entrypoint "bash"' argument
+    entrypoint: ["bash","/tmp/backup.sh"]
+
+    volumes:
+      # Mount the local config.json to the expected location in the container
+      - ./config.json:/root/.mc/config.json
+
+      # Mount the local minio_backups directory
+      - ./minio_backups:/tmp/minio_backups
+
+      # Mount the local backup.sh script
+      - ./backup.sh:/tmp/backup.sh
